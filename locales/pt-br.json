@@ -1,0 +1,55 @@
+{
+  "error": {
+      "no_people_nearby": "Nenhum jogador por perto",
+      "no_vehicle_found": "Nenhum veículo encontrado",
+      "extra_deactivated": "Extra %s foi desativado",
+      "extra_not_present": "Extra %s não está presente neste veículo",
+      "not_driver": "Você não é o motorista do veículo",
+      "vehicle_driving_fast": "Este veículo está se movendo muito rápido",
+      "race_harness_on": "Você está usando um arnês de corrida; você não pode trocar",
+      "obj_not_found": "Não foi possível criar o objeto solicitado",
+      "not_near_ambulance": "Você não está perto de uma ambulância",
+      "far_away": "Você está muito longe",
+      "not_kidnapped": "Você não sequestrou essa pessoa",
+      "trunk_closed": "O porta-malas está fechado",
+      "cant_enter_trunk": "Você não pode entrar neste porta-malas",
+      "already_in_trunk": "Você já está no porta-malas",
+      "cancel_task": "Tarefa cancelada",
+      "someone_in_trunk": "Alguém já está no porta-malas",
+      "no_vehicle_nearby": "Nenhum veículo por perto para virar."
+  },
+  "progress": {
+      "flipping_car": "Virando veículo..."
+  },
+  "success": {
+      "extra_activated": "Extra %s foi ativado",
+      "entered_trunk": "Você está no porta-malas",
+      "flipped_car": "Veículo virado com sucesso!"
+  },
+  "info": {
+      "no_variants": "Não parece haver variantes para isso",
+      "wrong_ped": "Este modelo de PED não permite esta opção",
+      "nothing_to_remove": "Você não parece ter nada para remover",
+      "already_wearing": "Você já está usando isso"
+  },
+  "general": {
+      "command_description": "Abrir Menu Radial",
+      "get_out_trunk_button": "[E] Sair do Porta-malas",
+      "close_trunk_button": "[G] Fechar o Porta-malas",
+      "open_trunk_button": "[G] Abrir o Porta-malas",
+      "getintrunk_command_desc": "Entrar no Porta-malas",
+      "putintrunk_command_desc": "Colocar Jogador no Porta-malas",
+      "gang_radial": "Gangue",
+      "job_radial": "Trabalho"
+  },
+  "options": {
+      "flip": "Virar Veículo",
+      "vehicle": "Veículo",
+      "emergency_button": "Botão de Emergência",
+      "driver_seat": "Assento do Motorista",
+      "passenger_seat": "Assento do Passageiro",
+      "other_seats": "Outro Assento",
+      "rear_left_seat": "Assento Traseiro Esquerdo",
+      "rear_right_seat": "Assento Traseiro Direito"
+  }
+}
