@@ -105,7 +105,17 @@ local function setupVehicleMenu()
         end,
     }}
 
-    vehicleItems[#vehicleItems + 1] = convert(config.vehicleDoors)
+    vehicleItems[#vehicleItems + 1] = {
+        id = 'vehicle-menu',
+        label = "Menu do veículo",
+        icon = 'fa-solid fa-bars',
+        onSelect = function()
+            TriggerEvent('vehcontrol:openExternal')
+            lib.hideRadial()
+        end,
+    }
+
+    -- vehicleItems[#vehicleItems + 1] = convert(config.vehicleDoors)
 
     if config.enableExtraMenu then
         vehicleItems[#vehicleItems + 1] = convert(config.vehicleExtras)
