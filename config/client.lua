@@ -10,18 +10,18 @@ return {
             icon = 'user',
             label = 'Cidadão',
             items = {
-                {
-                    id = 'givenum',
-                    icon = 'address-book',
-                    label = 'Dar Detalhes de Contato',
-                    event = 'qb-phone:client:GiveContactDetails'
-                },
-                {
-                    id = 'getintrunk',
-                    icon = 'car',
-                    label = 'Entrar no Porta-malas',
-                    event = 'qb-trunk:client:GetIn'
-                },
+                -- {
+                --     id = 'givenum',
+                --     icon = 'address-book',
+                --     label = 'Dar Contato',
+                --     event = 'qb-phone:client:GiveContactDetails'
+                -- },
+                -- {
+                --     id = 'getintrunk',
+                --     icon = 'car',
+                --     label = 'Entrar no Porta-malas',
+                --     event = 'qb-trunk:client:GetIn'
+                -- },
                 {
                     id = 'cornerselling',
                     icon = 'cannabis',
@@ -272,143 +272,143 @@ return {
     },               
 
     jobItems = {
-        police = {
-            {
-                id = 'emergencyButton',
-                icon = 'bell',
-                label = 'Botão de Emergência',
-                event = 'police:client:SendPoliceEmergencyAlert',
-            },
-            {
-                id = 'resetHouse',
-                icon = 'key',
-                label = 'Redefinir Trava da Casa',
-                event = 'qb-houses:client:ResetHouse',
-            },
-            {
-                id = 'revokeDriversLicense',
-                icon = 'id-card',
-                label = 'Revogar Carteira de Motorista',
-                event = 'police:client:SeizeDriverLicense',
-            },
-            {
-                id = 'policeInteractions',
-                icon = 'list-check',
-                label = 'Interações Policiais',
-                items = {
-                    {
-                        id = 'statusCheck',
-                        icon = 'heart-pulse',
-                        label = 'Verificar Estado de Saúde',
-                        event = 'hospital:client:CheckStatus',
-                    },
-                    {
-                        id = 'escort',
-                        icon = 'user-group',
-                        label = 'Acompanhar',
-                        event = 'police:client:EscortPlayer',
-                    },
-                    {
-                        id = 'search',
-                        icon = 'magnifying-glass',
-                        label = 'Buscar',
-                        event = 'police:client:SearchPlayer',
-                    },
-                    {
-                        id = 'jail',
-                        icon = 'user-lock',
-                        label = 'Prisão',
-                        event = 'police:client:JailPlayer',
-                    },
-                },
-            },
-            {
-                id = 'policeObjects',
-                icon = 'road',
-                label = 'Objetos Policiais',
-                items = {
-                    {
-                        id = 'cone',
-                        icon = 'triangle-exclamation',
-                        label = 'Cone',
-                        event = 'police:client:spawnPObj',
-                        args = 'cone',
-                    },
-                    {
-                        id = 'gate',
-                        icon = 'torii-gate',
-                        label = 'Portão',
-                        event = 'police:client:spawnPObj',
-                        args = 'barrier',
-                    },
-                    {
-                        id = 'speedSign',
-                        icon = 'sign-hanging',
-                        label = 'Sinal de Limite de Velocidade',
-                        event = 'police:client:spawnPObj',
-                        args = 'roadsign',
-                    },
-                    {
-                        id = 'tent',
-                        icon = 'campground',
-                        label = 'Tenda',
-                        event = 'police:client:spawnPObj',
-                        args = 'tent',
-                    },
-                    {
-                        id = 'lighting',
-                        icon = 'lightbulb',
-                        label = 'Iluminação',
-                        event = 'police:client:spawnPObj',
-                        args = 'light',
-                    },
-                    {
-                        id = 'spikeStrip',
-                        icon = 'caret-up',
-                        label = 'Pneu Furado',
-                        event = 'police:client:SpawnSpikeStrip',
-                    },
-                    {
-                        id = 'deleteObject',
-                        icon = 'trash',
-                        label = 'Excluir Objeto',
-                        event = 'police:client:deleteObject',
-                    },
-                },
-            },
-        },
-        ambulance = {
-            {
-                id = 'statusCheck',
-                icon = 'heart-pulse',
-                label = 'Verificar Estado de Saúde',
-                event = 'hospital:client:CheckStatus',
-            },
-            {
-                id = 'revive',
-                icon = 'user-doctor',
-                label = 'Reviver',
-                event = 'hospital:client:RevivePlayer',
-            },
-            {
-                id = 'treatWounds',
-                icon = 'bandage',
-                label = 'Curar Ferimentos',
-                event = 'hospital:client:TreatWounds',
-            },
-            {
-                id = 'emergencyButton',
-                icon = 'bell',
-                label = 'Botão de Emergência',
-                serverEvent = 'hospital:server:emergencyAlert',
-            },
-            {
-                id = 'escort',
-                icon = 'user-group',
-                label = 'Acompanhar',
-                event = 'police:client:EscortPlayer',
-            },
-        },
+        -- police = {
+        --     {
+        --         id = 'emergencyButton',
+        --         icon = 'bell',
+        --         label = 'Botão de Emergência',
+        --         event = 'police:client:SendPoliceEmergencyAlert',
+        --     },
+        --     {
+        --         id = 'resetHouse',
+        --         icon = 'key',
+        --         label = 'Redefinir Trava da Casa',
+        --         event = 'qb-houses:client:ResetHouse',
+        --     },
+        --     {
+        --         id = 'revokeDriversLicense',
+        --         icon = 'id-card',
+        --         label = 'Revogar Carteira de Motorista',
+        --         event = 'police:client:SeizeDriverLicense',
+        --     },
+        --     {
+        --         id = 'policeInteractions',
+        --         icon = 'list-check',
+        --         label = 'Interações Policiais',
+        --         items = {
+        --             {
+        --                 id = 'statusCheck',
+        --                 icon = 'heart-pulse',
+        --                 label = 'Verificar Estado de Saúde',
+        --                 event = 'hospital:client:CheckStatus',
+        --             },
+        --             {
+        --                 id = 'escort',
+        --                 icon = 'user-group',
+        --                 label = 'Acompanhar',
+        --                 event = 'police:client:EscortPlayer',
+        --             },
+        --             {
+        --                 id = 'search',
+        --                 icon = 'magnifying-glass',
+        --                 label = 'Buscar',
+        --                 event = 'police:client:SearchPlayer',
+        --             },
+        --             {
+        --                 id = 'jail',
+        --                 icon = 'user-lock',
+        --                 label = 'Prisão',
+        --                 event = 'police:client:JailPlayer',
+        --             },
+        --         },
+        --     },
+        --     {
+        --         id = 'policeObjects',
+        --         icon = 'road',
+        --         label = 'Objetos Policiais',
+        --         items = {
+        --             {
+        --                 id = 'cone',
+        --                 icon = 'triangle-exclamation',
+        --                 label = 'Cone',
+        --                 event = 'police:client:spawnPObj',
+        --                 args = 'cone',
+        --             },
+        --             {
+        --                 id = 'gate',
+        --                 icon = 'torii-gate',
+        --                 label = 'Portão',
+        --                 event = 'police:client:spawnPObj',
+        --                 args = 'barrier',
+        --             },
+        --             {
+        --                 id = 'speedSign',
+        --                 icon = 'sign-hanging',
+        --                 label = 'Sinal de Limite de Velocidade',
+        --                 event = 'police:client:spawnPObj',
+        --                 args = 'roadsign',
+        --             },
+        --             {
+        --                 id = 'tent',
+        --                 icon = 'campground',
+        --                 label = 'Tenda',
+        --                 event = 'police:client:spawnPObj',
+        --                 args = 'tent',
+        --             },
+        --             {
+        --                 id = 'lighting',
+        --                 icon = 'lightbulb',
+        --                 label = 'Iluminação',
+        --                 event = 'police:client:spawnPObj',
+        --                 args = 'light',
+        --             },
+        --             {
+        --                 id = 'spikeStrip',
+        --                 icon = 'caret-up',
+        --                 label = 'Pneu Furado',
+        --                 event = 'police:client:SpawnSpikeStrip',
+        --             },
+        --             {
+        --                 id = 'deleteObject',
+        --                 icon = 'trash',
+        --                 label = 'Excluir Objeto',
+        --                 event = 'police:client:deleteObject',
+        --             },
+        --         },
+        --     },
+        -- },
+        -- ambulance = {
+        --     {
+        --         id = 'statusCheck',
+        --         icon = 'heart-pulse',
+        --         label = 'Verificar Estado de Saúde',
+        --         event = 'hospital:client:CheckStatus',
+        --     },
+        --     {
+        --         id = 'revive',
+        --         icon = 'user-doctor',
+        --         label = 'Reviver',
+        --         event = 'hospital:client:RevivePlayer',
+        --     },
+        --     {
+        --         id = 'treatWounds',
+        --         icon = 'bandage',
+        --         label = 'Curar Ferimentos',
+        --         event = 'hospital:client:TreatWounds',
+        --     },
+        --     {
+        --         id = 'emergencyButton',
+        --         icon = 'bell',
+        --         label = 'Botão de Emergência',
+        --         serverEvent = 'hospital:server:emergencyAlert',
+        --     },
+        --     {
+        --         id = 'escort',
+        --         icon = 'user-group',
+        --         label = 'Acompanhar',
+        --         event = 'police:client:EscortPlayer',
+        --     },
+        -- },
         mechanic = {
             {
                 id = 'towVehicle',
@@ -417,26 +417,26 @@ return {
                 event = 'qb-tow:client:TowVehicle',
             },
         },
-        taxi = {
-            {
-                id = 'togglemeter',
-                icon = 'eye-slash',
-                label = 'Mostrar/Ocultar Taxímetro',
-                event = 'qb-taxi:client:toggleMeter',
-            },
-            {
-                id = 'togglemouse',
-                icon = 'hourglass-start',
-                label = 'Iniciar/Parar Taxímetro',
-                event = 'qb-taxi:client:enableMeter',
-            },
-            {
-                id = 'npcMission',
-                icon = 'taxi',
-                label = 'Missão NPC',
-                event = 'qb-taxi:client:DoTaxiNpc',
-            },
-        },
+        -- taxi = {
+        --     {
+        --         id = 'togglemeter',
+        --         icon = 'eye-slash',
+        --         label = 'Mostrar/Ocultar Taxímetro',
+        --         event = 'qb-taxi:client:toggleMeter',
+        --     },
+        --     {
+        --         id = 'togglemouse',
+        --         icon = 'hourglass-start',
+        --         label = 'Iniciar/Parar Taxímetro',
+        --         event = 'qb-taxi:client:enableMeter',
+        --     },
+        --     {
+        --         id = 'npcMission',
+        --         icon = 'taxi',
+        --         label = 'Missão NPC',
+        --         event = 'qb-taxi:client:DoTaxiNpc',
+        --     },
+        -- },
         tow = {
             {
                 id = 'togglenpc',
