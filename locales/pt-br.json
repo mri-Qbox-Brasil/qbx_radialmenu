@@ -16,7 +16,9 @@
       "already_in_trunk": "Você já está no porta-malas",
       "cancel_task": "Tarefa cancelada",
       "someone_in_trunk": "Alguém já está no porta-malas",
-      "no_vehicle_nearby": "Nenhum veículo por perto para virar."
+      "no_vehicle_nearby": "Nenhum veículo por perto para virar.",
+      "livery_removed": "Plotagem removida",
+      "livery_not_present": "Plotagem não está definida neste veículo"
   },
   "progress": {
       "flipping_car": "Virando veículo..."
@@ -24,7 +26,8 @@
   "success": {
       "extra_activated": "Extra %s foi ativado",
       "entered_trunk": "Você está no porta-malas",
-      "flipped_car": "Veículo virado com sucesso!"
+      "flipped_car": "Veículo virado com sucesso!",
+      "livery_set": "Plotagem definida com sucesso!"
   },
   "info": {
       "no_variants": "Não parece haver variantes para isso",

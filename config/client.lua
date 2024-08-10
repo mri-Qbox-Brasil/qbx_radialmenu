@@ -2,6 +2,7 @@ local bags = {[40] = true, [41] = true, [44] = true, [45] = true}
 
 return {
     enableExtraMenu = true,
+    enableLiveryMenu = true,
     flipTime = 15000,
 
     menuItems = {
@@ -606,6 +607,105 @@ return {
                 icon = 'box-open',
                 label = 'Extra 13',
                 event = 'radialmenu:client:setExtra',
+                args = 13,
+            },
+        },
+    },
+
+    vehicleLiveries = {
+        id = 'vehicleLiveries',
+        icon = 'brush',
+        label = 'Plotagens',
+        items = {
+            {
+                id = 'livery1',
+                icon = 'palette',
+                label = 'Plotagem 1',
+                event = 'radialmenu:client:setLivery',
+                args = 1,
+            },
+            {
+                id = 'livery2',
+                icon = 'palette',
+                label = 'Plotagem 2',
+                event = 'radialmenu:client:setLivery',
+                args = 2,
+            },
+            {
+                id = 'livery3',
+                icon = 'palette',
+                label = 'Plotagem 3',
+                event = 'radialmenu:client:setLivery',
+                args = 3,
+            },
+            {
+                id = 'livery4',
+                icon = 'palette',
+                label = 'Plotagem 4',
+                event = 'radialmenu:client:setLivery',
+                args = 4,
+            },
+            {
+                id = 'livery5',
+                icon = 'palette',
+                label = 'Plotagem 5',
+                event = 'radialmenu:client:setLivery',
+                args = 5,
+            },
+            {
+                id = 'livery6',
+                icon = 'palette',
+                label = 'Plotagem 6',
+                event = 'radialmenu:client:setLivery',
+                args = 6,
+            },
+            {
+                id = 'livery7',
+                icon = 'palette',
+                label = 'Plotagem 7',
+                event = 'radialmenu:client:setLivery',
+                args = 7,
+            },
+            {
+                id = 'livery8',
+                icon = 'palette',
+                label = 'Plotagem 8',
+                event = 'radialmenu:client:setLivery',
+                args = 8,
+            },
+            {
+                id = 'livery9',
+                icon = 'palette',
+                label = 'Plotagem 9',
+                event = 'radialmenu:client:setLivery',
+                args = 9,
+            },
+            {
+                id = 'livery10',
+                icon = 'palette',
+                label = 'Plotagem 10',
+                event = 'radialmenu:client:setLivery',
+                args = 10,
+            },
+            {
+                id = 'livery11',
+                icon = 'palette',
+                label = 'Plotagem 11',
+                event = 'radialmenu:client:setLivery',
+                args = 11,
+            },
+            {
+                id = 'livery12',
+                icon = 'palette',
+                label = 'Plotagem 12',
+                event = 'radialmenu:client:setLivery',
+                args = 12,
+            },
+            {
+                id = 'livery13',
+                icon = 'palette',
+                label = 'Plotagem 13',
+                event = 'radialmenu:client:setLivery',
                 args = 13,
             },
         },

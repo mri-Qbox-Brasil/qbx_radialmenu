@@ -121,6 +121,10 @@ local function setupVehicleMenu()
         vehicleItems[#vehicleItems + 1] = convert(config.vehicleExtras)
     end
 
+    if config.enableLiveryMenu then
+        vehicleItems[#vehicleItems + 1] = convert(config.vehicleLiveries)
+    end
+
     --[[if config.vehicleSeats then
         CreateThread(addVehicleSeats)
         vehicleItems[#vehicleItems + 1] = config.vehicleSeats
@@ -280,6 +284,29 @@ RegisterNetEvent('radialmenu:client:setExtra', function(id)
                 end
             else
                 exports.qbx_core:Notify(locale('error.extra_not_present', extra), 'error', 2500)
+            end
+        else
+            exports.qbx_core:Notify(locale('error.not_driver'), 'error', 2500)
+        end
+    end
+end)
+
+RegisterNetEvent('radialmenu:client:setLivery', function(id)
+    local livery = id
+    if cache.vehicle ~= nil then
+        if cache.seat == -1 then
+            SetVehicleAutoRepairDisabled(cache.vehicle, true) -- Forces Auto Repair off when Toggling Livery [GTA 5 Niche Issue]
+            if GetVehicleLiveryCount(cache.vehicle) > 0 and livery >= 0 and livery < GetVehicleLiveryCount(cache.vehicle) then
+                local currentLivery = GetVehicleLivery(cache.vehicle)
+                if currentLivery == livery then
+                    SetVehicleLivery(cache.vehicle, -1) -- Remove the livery if it's already set
+                    exports.qbx_core:Notify(locale('error.livery_removed', livery), 'error', 2500)
+                else
+                    SetVehicleLivery(cache.vehicle, livery)
+                    exports.qbx_core:Notify(locale('success.livery_set', livery), 'success', 2500)
+                end
+            else
+                exports.qbx_core:Notify(locale('error.livery_not_present', livery), 'error', 2500)
             end
         else
             exports.qbx_core:Notify(locale('error.not_driver'), 'error', 2500)
