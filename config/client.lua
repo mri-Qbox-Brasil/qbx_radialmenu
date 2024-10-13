@@ -85,63 +85,63 @@ return {
             icon = 'rectangle-list',
             label = 'Geral',
             items = {
-                {
-                    id = 'house',
-                    icon = 'home',
-                    label = 'Interação com Casa',
-                    items = {
-                        {
-                            id = 'givehousekey',
-                            icon = 'key',
-                            label = 'Dar Chaves da Casa',
-                            event = 'qb-houses:client:giveHouseKey',
-                        },
-                        {
-                            id = 'removehousekey',
-                            icon = 'key',
-                            label = 'Remover Chaves da Casa',
-                            event = 'qb-houses:client:removeHouseKey',
-                        },
-                        {
-                            id = 'togglelock',
-                            icon = 'door-closed',
-                            label = 'Alternar Trava da Porta',
-                            event = 'qb-houses:client:toggleDoorlock',
-                        },
-                        {
-                            id = 'decorate',
-                            icon = 'box',
-                            label = 'Decorar',
-                            event = 'qb-houses:client:decorate',
-                        },
-                        {
-                            id = 'houseLocations',
-                            icon = 'home',
-                            label = 'Localizações da Casa',
-                            event = 'qb-houses:client:manageHouses',
-                            items = {
-                                {
-                                    id = 'setStash',
-                                    icon = 'box-open',
-                                    label = 'Definir Baú',
-                                    event = 'qb-houses:client:setLocation',
-                                },
-                                {
-                                    id = 'setWardrobe',
-                                    icon = 'shirt',
-                                    label = 'Definir Guarda-Roupas',
-                                    event = 'qb-houses:client:setLocation',
-                                },
-                                {
-                                    id = 'setLogout',
-                                    icon = 'door-open',
-                                    label = 'Definir Desconexão',
-                                    event = 'qb-houses:client:setLocation',
-                                },
-                            },
-                        },
-                    },
-                },        
+                -- {
+                --     id = 'house',
+                --     icon = 'home',
+                --     label = 'Interação com Casa',
+                --     items = {
+                --         {
+                --             id = 'givehousekey',
+                --             icon = 'key',
+                --             label = 'Dar Chaves da Casa',
+                --             event = 'qb-houses:client:giveHouseKey',
+                --         },
+                --         {
+                --             id = 'removehousekey',
+                --             icon = 'key',
+                --             label = 'Remover Chaves da Casa',
+                --             event = 'qb-houses:client:removeHouseKey',
+                --         },
+                --         {
+                --             id = 'togglelock',
+                --             icon = 'door-closed',
+                --             label = 'Alternar Trava da Porta',
+                --             event = 'qb-houses:client:toggleDoorlock',
+                --         },
+                --         {
+                --             id = 'decorate',
+                --             icon = 'box',
+                --             label = 'Decorar',
+                --             event = 'qb-houses:client:decorate',
+                --         },
+                --         {
+                --             id = 'houseLocations',
+                --             icon = 'home',
+                --             label = 'Localizações da Casa',
+                --             event = 'qb-houses:client:manageHouses',
+                --             items = {
+                --                 {
+                --                     id = 'setStash',
+                --                     icon = 'box-open',
+                --                     label = 'Definir Baú',
+                --                     event = 'qb-houses:client:setLocation',
+                --                 },
+                --                 {
+                --                     id = 'setWardrobe',
+                --                     icon = 'shirt',
+                --                     label = 'Definir Guarda-Roupas',
+                --                     event = 'qb-houses:client:setLocation',
+                --                 },
+                --                 {
+                --                     id = 'setLogout',
+                --                     icon = 'door-open',
+                --                     label = 'Definir Desconexão',
+                --                     event = 'qb-houses:client:setLocation',
+                --                 },
+                --             },
+                --         },
+                --     },
+                -- },        
                 {
                     id = 'clothesMenu',
                     icon = 'shirt',
