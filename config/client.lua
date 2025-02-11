@@ -29,57 +29,57 @@ return {
                     label = 'Venda de Esquina',
                     event = 'qb-drugs:client:cornerselling'
                 },
-                {
-                    id = 'interactions',
-                    icon = 'exclamation-triangle',
-                    label = 'Interação',
-                    items = {
-                        {
-                            id = 'handcuff',
-                            icon = 'user-lock',
-                            label = 'Algema',
-                            event = 'police:client:CuffPlayer',
-                        },
-                        {
-                            id = 'playerInVehicle',
-                            icon = 'car-side',
-                            label = 'Colocar no Veículo',
-                            event = 'police:client:PutPlayerInVehicle',
-                        },
-                        {
-                            id = 'playerOutVehicle',
-                            icon = 'car-side',
-                            label = 'Retirar do Veículo',
-                            event = 'police:client:SetPlayerOutVehicle',
-                        },
-                        {
-                            id = 'stealPlayer',
-                            icon = 'mask',
-                            label = 'Roubar',
-                            event = 'police:client:RobPlayer',
-                        },
-                        {
-                            id = 'kidnapPlayer',
-                            icon = 'user-group',
-                            label = 'Sequestrar',
-                            event = 'police:client:KidnapPlayer',
-                        },
-                        {
-                            id = 'escortPlayer',
-                            icon = 'user-group',
-                            label = 'Escoltar',
-                            event = 'police:client:EscortPlayer',
-                        },
-                        {
-                            id = 'takeHostage',
-                            icon = 'child',
-                            label = 'Fazer Refém',
-                            event = 'police:client:TakeHostage',
-                        },
-                    },
-                },
+                -- {
+                --     id = 'interactions',
+                --     icon = 'exclamation-triangle',
+                --     label = 'Interação',
+                --     items = {
+                --         {
+                --             id = 'handcuff',
+                --             icon = 'user-lock',
+                --             label = 'Algema',
+                --             event = 'police:client:CuffPlayer',
+                --         },
+                --         {
+                --             id = 'playerInVehicle',
+                --             icon = 'car-side',
+                --             label = 'Colocar no Veículo',
+                --             event = 'police:client:PutPlayerInVehicle',
+                --         },
+                --         {
+                --             id = 'playerOutVehicle',
+                --             icon = 'car-side',
+                --             label = 'Retirar do Veículo',
+                --             event = 'police:client:SetPlayerOutVehicle',
+                --         },
+                --         {
+                --             id = 'stealPlayer',
+                --             icon = 'mask',
+                --             label = 'Roubar',
+                --             event = 'police:client:RobPlayer',
+                --         },
+                --         {
+                --             id = 'kidnapPlayer',
+                --             icon = 'user-group',
+                --             label = 'Sequestrar',
+                --             event = 'police:client:KidnapPlayer',
+                --         },
+                --         {
+                --             id = 'escortPlayer',
+                --             icon = 'user-group',
+                --             label = 'Escoltar',
+                --             event = 'police:client:EscortPlayer',
+                --         },
+                --         {
+                --             id = 'takeHostage',
+                --             icon = 'child',
+                --             label = 'Fazer Refém',
+                --             event = 'police:client:TakeHostage',
+                --         },
+                --     },
+                -- },
             },
-        },    
+        },
         {
             id = 'general',
             icon = 'rectangle-list',
@@ -141,7 +141,7 @@ return {
                 --             },
                 --         },
                 --     },
-                -- },        
+                -- },
                 {
                     id = 'clothesMenu',
                     icon = 'shirt',
@@ -270,7 +270,7 @@ return {
                 },
             },
         },
-    },               
+    },
 
     jobItems = {
         -- police = {
@@ -452,7 +452,7 @@ return {
                 event = 'qb-tow:client:TowVehicle',
             },
         },
-    },    
+    },
 
     gangItems = {},
 
@@ -505,14 +505,14 @@ return {
             },
         },
     },
-    
+
     vehicleSeats = {
         id = 'vehicleSeats',
         icon = 'chair',
         label = 'Assentos do Veículo',
         menu = 'vehicleSeatsMenu'
     },
-    
+
     vehicleExtras = {
         id = 'vehicleExtras',
         icon = 'plus',
@@ -709,7 +709,7 @@ return {
                 args = 13,
             },
         },
-    },    
+    },
 
     trunkClasses = {
         [0] = {allowed = true, x = 0.0, y = -1.5, z = 0.0}, -- Coupes
