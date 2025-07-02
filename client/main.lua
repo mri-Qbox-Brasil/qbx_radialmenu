@@ -129,7 +129,7 @@ function setupVehicleMenu(seat)
         end,
     }
 
-    -- vehicleItems[#vehicleItems + 1] = convert(config.vehicleDoors)
+    vehicleItems[#vehicleItems + 1] = convert(config.vehicleDoors)
 
     vehicleItems[#vehicleItems + 1] = convert(config.vehicleWindows)
 
@@ -141,8 +141,7 @@ function setupVehicleMenu(seat)
         vehicleItems[#vehicleItems + 1] = convert(config.vehicleLiveries)
     end
 
-    if config.vehicleSeats then
-        CreateThread(addVehicleSeats)
+    if config.vehicleSeats and seat then
         vehicleItems[#vehicleItems + 1] = config.vehicleSeats
     end
 
