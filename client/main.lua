@@ -4,48 +4,10 @@ local config = require 'config.client'
 ------- Events --------
 -----------------------
 
-if config.vehicleSeats then
-    lib.onCache('vehicle', function(vehicle)
-        if vehicle then
-            setupVehicleMenu(true)
-            local vehicleSeats = {}
-            local veh = vehicle
-            local amountOfSeats = GetVehicleModelNumberOfSeats(GetEntityModel(veh))
+lib.onCache('vehicle', function(vehicle)
+    setupVehicleMenu(vehicle ~= false)
+end)
 
-            local seatTable = {
-                [1] = locale('options.driver_seat'),
-                [2] = locale('options.passenger_seat'),
-                [3] = locale('options.rear_left_seat'),
-                [4] = locale('options.rear_right_seat')
-            }
-
-            for i = 1, amountOfSeats do
-                vehicleSeats[#vehicleSeats + 1] = {
-                    id = 'vehicleSeat' .. i,
-                    label = seatTable[i] or locale('options.other_seats'),
-                    icon = 'caret-up',
-                    onSelect = function()
-                        if cache.vehicle then
-                            TriggerEvent('radialmenu:client:ChangeSeat', i,
-                                seatTable[i] or locale('options.other_seats'))
-                        else
-                            exports.qbx_core:Notify(locale('error.not_in_vehicle'), 'error')
-                        end
-                        lib.hideRadial()
-                    end
-                }
-            end
-
-            lib.registerRadial({
-                id = 'vehicleSeatsMenu',
-                items = vehicleSeats
-            })
-        else
-            setupVehicleMenu(false)
-        end
-    end)
-
-end
 
 -----------------------
 ------ Functions ------
@@ -101,56 +63,46 @@ local function convert(tbl)
     }
 end
 
-function setupVehicleMenu(seat)
-    local vehicleMenu = {
-        id = 'vehicle',
-        label = locale('options.vehicle'),
-        icon = 'car',
-        menu = 'vehicleMenu'
+function setupVehicleMenu(isInVehicle)
+    if isInVehicle then
+        -- "Veículo" abre diretamente o vehcontrol (portas, janelas, extras, plotagens, assentos são gerenciados lá)
+        lib.addRadialItem({
+            id = 'vehicle',
+            label = locale('options.vehicle'),
+            icon = 'car',
+            onSelect = function()
+                TriggerEvent('vehcontrol:openExternal')
+                lib.hideRadial()
+            end,
+        })
+    else
+        lib.removeRadialItem('vehicle')
+    end
+
+    -- Submenu "Ações" com virar veículo
+    local actionsItems = {
+        {
+            id = 'action-flip',
+            label = locale('options.flip'),
+            icon = 'car-burst',
+            onSelect = function()
+                TriggerEvent('radialmenu:flipVehicle')
+                lib.hideRadial()
+            end,
+        },
     }
-
-    local vehicleItems = {{
-        id = 'vehicle-flip',
-        label = locale('options.flip'),
-        icon = 'car-burst',
-        onSelect = function()
-            TriggerEvent('radialmenu:flipVehicle')
-            lib.hideRadial()
-        end
-    }}
-
-    vehicleItems[#vehicleItems + 1] = {
-        id = 'vehicle-menu',
-        label = "Menu do veículo",
-        icon = 'fa-solid fa-bars',
-        onSelect = function()
-            TriggerEvent('vehcontrol:openExternal')
-            lib.hideRadial()
-        end,
-    }
-
-    vehicleItems[#vehicleItems + 1] = convert(config.vehicleDoors)
-
-    vehicleItems[#vehicleItems + 1] = convert(config.vehicleWindows)
-
-    if config.enableExtraMenu then
-        vehicleItems[#vehicleItems + 1] = convert(config.vehicleExtras)
-    end
-
-    if config.enableLiveryMenu then
-        vehicleItems[#vehicleItems + 1] = convert(config.vehicleLiveries)
-    end
-
-    if config.vehicleSeats and seat then
-        vehicleItems[#vehicleItems + 1] = config.vehicleSeats
-    end
 
     lib.registerRadial({
-        id = 'vehicleMenu',
-        items = vehicleItems
+        id = 'actionsMenu',
+        items = actionsItems,
     })
 
-    lib.addRadialItem(vehicleMenu)
+    lib.addRadialItem({
+        id = 'actions',
+        label = 'Ações',
+        icon = 'hand',
+        menu = 'actionsMenu',
+    })
 end
 
 local function setupRadialMenu()
@@ -307,50 +259,9 @@ RegisterNetEvent('qbx_radialmenu:client:toggleWindows', function(id)
     end
 end)
 
-RegisterNetEvent('radialmenu:client:setExtra', function(id)
-    local extra = id
-    if cache.vehicle ~= nil then
-        if cache.seat == -1 then
-            SetVehicleAutoRepairDisabled(cache.vehicle, true) -- Forces Auto Repair off when Toggling Extra [GTA 5 Niche Issue]
-            if DoesExtraExist(cache.vehicle, extra) then
-                if IsVehicleExtraTurnedOn(cache.vehicle, extra) then
-                    qbx.setVehicleExtra(cache.vehicle, extra, false)
-                    exports.qbx_core:Notify(locale('error.extra_deactivated', extra), 'error', 2500)
-                else
-                    qbx.setVehicleExtra(cache.vehicle, extra, true)
-                    exports.qbx_core:Notify(locale('success.extra_activated', extra), 'success', 2500)
-                end
-            else
-                exports.qbx_core:Notify(locale('error.extra_not_present', extra), 'error', 2500)
-            end
-        else
-            exports.qbx_core:Notify(locale('error.not_driver'), 'error', 2500)
-        end
-    end
-end)
-
-RegisterNetEvent('radialmenu:client:setLivery', function(id)
-    local livery = id
-    if cache.vehicle ~= nil then
-        if cache.seat == -1 then
-            SetVehicleAutoRepairDisabled(cache.vehicle, true) -- Forces Auto Repair off when Toggling Livery [GTA 5 Niche Issue]
-            if GetVehicleLiveryCount(cache.vehicle) > 0 and livery >= 0 and livery < GetVehicleLiveryCount(cache.vehicle) then
-                local currentLivery = GetVehicleLivery(cache.vehicle)
-                if currentLivery == livery then
-                    SetVehicleLivery(cache.vehicle, -1) -- Remove the livery if it's already set
-                    exports.qbx_core:Notify(locale('error.livery_removed', livery), 'error', 2500)
-                else
-                    SetVehicleLivery(cache.vehicle, livery)
-                    exports.qbx_core:Notify(locale('success.livery_set', livery), 'success', 2500)
-                end
-            else
-                exports.qbx_core:Notify(locale('error.livery_not_present', livery), 'error', 2500)
-            end
-        else
-            exports.qbx_core:Notify(locale('error.not_driver'), 'error', 2500)
-        end
-    end
-end)
+-- NOTA: Extras e Plotagens agora são gerenciados pelo mri_Qvehcontrol
+-- Os handlers abaixo foram removidos pois o vehcontrol já cuida dessas funcionalidades
+-- via sua NUI (ExtrasPanel e LiveriesPanel).
 
 RegisterNetEvent('radialmenu:flipVehicle', function()
     if cache.vehicle then
