@@ -1,236 +1,280 @@
-# Manual do qbx_radialmenu
+# qbx_radialmenu — Manual
 
-Sistema de menu radial moderno para Qbox — acesso rápido a controles de veículos, roupas e ações de emprego através de interface circular intuitiva com ícones FontAwesome 5.
+Menu radial do `ox_lib` com as interações do jogador: portas, janelas, extras, pinturas e assentos do veículo, controle de roupas, opções por job/gangue e o sistema de porta-malas.
 
-## Funcionalidades Principais
+---
 
-### 🎨 Interface
-- **Ícones FontAwesome 5**: Suporte completo a ícones FA5 (brands, light, regular, solid)
-- **Menu Circular**: Interface intuitiva com navegação por setas ou mouse
-- **Animações Suaves**: Transições entre menus e submenus
+## Sumário
 
-### 🚗 Controles de Veículos
-- **Portas**: Abrir/fechar todas as portas (motorista, passageiro, traseiras)
-- **Janelas**: Abrir/fechar janelas
-- **Assentos**: Trocar de assento
-- **Extras**: Ativar/desativar extras do veículo (1-13)
-- **Liveries**: Alterar pintura/livery do veículo (1-13)
-- **Porta-Malas**: Interação com porta-malas (abrir/fechar)
+1. [Dependências](#dependências)
+2. [Instalação](#instalação)
+3. [Configuração](#configuração)
+4. [Comandos](#comandos)
+5. [Menu do veículo](#menu-do-veículo)
+6. [Opções por job e gangue](#opções-por-job-e-gangue)
+7. [Estado de morte](#estado-de-morte)
+8. [Porta-malas](#porta-malas)
+9. [Integrações](#integrações)
+10. [Entrypoints para outros recursos](#entrypoints-para-outros-recursos)
+11. [Localização](#localização)
+12. [Estrutura de arquivos](#estrutura-de-arquivos)
 
-### 👕 Sistema de Roupas
-Alternar visibilidade de itens de roupa:
-- Chapéus
-- Óculos
-- Máscaras
-- Colete
-- Bolsas
-- Camisas
-- Calças
-- Sapatos
-- Acessórios
+---
 
-### 💼 Menus de Emprego
-Itens personalizados para empregos específicos:
-- **Polícia**: Alerta de emergência, etc.
-- **Mecânico**: Guincho, reparos
-- **Táxi**: Iniciar corrida
-- **Personalizável**: Adicione itens para qualquer emprego
+## Dependências
 
-### 🌍 Localização
-- Suporte a múltiplos idiomas via ox_lib
-- Arquivos de tradução em `locales/`
+| Recurso | Obrigatório | Observação |
+|---|---|---|
+| `qbx_core` | Sim | Framework base, notificações e os módulos `lib.lua` e `playerdata.lua` |
+| `ox_lib` | Sim | O menu radial em si (`lib.registerRadial`, `lib.addRadialItem`), progress bar, locale. O menu é aberto pela tecla do próprio `ox_lib` |
+| `qbx_seatbelt` | Sim | `HasHarness()` — bloqueia a troca de assento com cinto de competição |
+| `qbx_medical` | Não | Statebag `qbx_medical:deathState` reduz o menu quando o jogador cai |
+| `qb-ambulancejob` | Não | Alternativa ao anterior via evento `hospital:server:SetDeathStatus` |
+| Job de polícia | Não | O botão de emergência dispara `police:client:SendPoliceEmergencyAlert` |
+| Job de EMS | Não | O botão de emergência dispara `hospital:server:emergencyAlert` |
+| Recurso de controle de veículo | Não | O item "Menu do veículo" dispara `vehcontrol:openExternal` |
 
-## Configuração (config/client.lua)
+Os itens padrão do config também apontam para eventos de terceiros (`qb-drugs:client:cornerselling`, `qb-tow:client:TowVehicle`, `qb-tow:client:ToggleNpc`). Se o recurso correspondente não existir, o item simplesmente não faz nada — remova-o do config.
 
-### Menu Principal
+---
+
+## Instalação
+
+1. Copie a pasta `qbx_radialmenu` para `resources/`.
+2. Adicione ao `server.cfg`, depois do `qbx_core`:
+   ```
+   ensure qbx_radialmenu
+   ```
+3. Ajuste `config/client.lua` com os itens do seu servidor. O arquivo já vem com boa parte dos itens comentados; descomente apenas os que têm o recurso correspondente instalado.
+4. **Conflitos** — não rode junto com o `qb-radialmenu`. Este recurso registra os mesmos eventos (`qb-radialmenu:*`, `qb-trunk:*`) e os mesmos comandos de roupa.
+
+---
+
+## Configuração
+
+Arquivo: `config/client.lua`.
+
+| Campo | Tipo | Obrigatório | Descrição |
+|---|---|---|---|
+| `enableExtraMenu` | bool | Sim | Mostra o submenu de extras do veículo |
+| `enableLiveryMenu` | bool | Sim | Mostra o submenu de pinturas (liveries) do veículo |
+| `flipTime` | ms | Sim | Duração da barra de progresso para desvirar um veículo |
+| `menuItems` | array | Sim | Itens sempre presentes no radial. Cada um: `id`, `icon`, `label` e um `event`, `serverEvent`, `command`, `action`, `onSelect` ou uma sublista `items` |
+| `jobItems` | tabela por job | Sim | Itens que aparecem só para o job, e só em serviço. Indexado pelo nome do job |
+| `gangItems` | tabela por gangue | Sim | Itens que aparecem só para membros da gangue. Indexado pelo nome da gangue |
+| `vehicleDoors` | tabela | Sim | Submenu das portas. Cada item dispara `qb-radialmenu:client:openDoor` com o índice da porta |
+| `vehicleWindows` | tabela | Sim | Submenu das janelas. Cada item dispara `qbx_radialmenu:client:toggleWindows` |
+| `vehicleSeats` | tabela | Sim | Entrada do submenu de assentos. A lista é gerada em runtime a partir do número de assentos do veículo |
+| `vehicleExtras` | tabela | Sim | Submenu de extras (`radialmenu:client:setExtra`) |
+| `vehicleLiveries` | tabela | Sim | Submenu de pinturas (`radialmenu:client:setLivery`) |
+| `trunkClasses` | tabela por classe | Sim | Por classe de veículo: `allowed` (pode entrar no porta-malas) e o offset `x`, `y`, `z` onde a pessoa é posicionada |
+| `clothingCommands` | tabela | Sim | Comandos de roupa. Cada entrada vira um comando de chat com o mesmo nome da chave |
+
+### Formato de um item
+
 ```lua
-menuItems = {
-    {
-        id = 'citizen',
-        icon = 'user',
-        label = 'Cidadão',
-        items = {
-            {
-                id = 'myaction',
-                icon = 'star',
-                label = 'Minha Ação',
-                event = 'myresource:client:doSomething'
-            },
-        },
-    },
-    {
-        id = 'vehicle',
-        icon = 'car',
-        label = 'Veículo',
-        items = {
-            -- itens de veículo serão adicionados automaticamente
-        }
-    }
+{
+    id = 'cornerselling',              -- id único
+    icon = 'cannabis',                 -- ícone Font Awesome
+    label = 'Venda de Esquina',
+    event = 'qb-drugs:client:cornerselling',  -- ou serverEvent / command / action / onSelect
+    args = nil,                        -- argumento passado ao evento/comando
+    -- items = { ... }                 -- se presente, o item vira um submenu
 }
 ```
 
-### Portas do Veículo
+---
+
+## Comandos
+
+### Porta-malas
+
+| Comando | Permissão | Descrição |
+|---|---|---|
+| `/getintrunk` | Qualquer jogador | Entra no porta-malas do veículo mais próximo |
+| `/putintrunk` | Qualquer jogador | Coloca a pessoa mais próxima no porta-malas (fluxo de sequestro) |
+
+### Roupas
+
+Registrados a partir das chaves de `config.clothingCommands`, um comando por chave:
+
+| Comando | Permissão | Descrição |
+|---|---|---|
+| `/top` | Qualquer jogador | Tira/coloca a parte de cima |
+| `/shirt` | Qualquer jogador | Tira/coloca a camisa (undershirt) |
+| `/pants` | Qualquer jogador | Tira/coloca a calça |
+| `/shoes` | Qualquer jogador | Tira/coloca os sapatos |
+| `/gloves` | Qualquer jogador | Tira/coloca as luvas |
+| `/vest` | Qualquer jogador | Tira/coloca o colete |
+| `/bag` | Qualquer jogador | Tira/coloca a mochila |
+| `/bagoff` | Qualquer jogador | Alterna a mochila/paraquedas nas costas |
+| `/hair` | Qualquer jogador | Alterna o cabelo |
+| `/hat` | Qualquer jogador | Tira/coloca o chapéu |
+| `/glasses` | Qualquer jogador | Tira/coloca os óculos |
+| `/visor` | Qualquer jogador | Alterna a viseira |
+| `/mask` | Qualquer jogador | Tira/coloca a máscara |
+| `/ear` | Qualquer jogador | Tira/coloca os brincos |
+| `/neck` | Qualquer jogador | Tira/coloca o colar |
+| `/watch` | Qualquer jogador | Tira/coloca o relógio |
+| `/bracelet` | Qualquer jogador | Tira/coloca a pulseira |
+| `/reset` | Qualquer jogador | Devolve todas as peças removidas |
+
+As mesmas ações estão no radial, em Geral > Roupas.
+
+---
+
+## Menu do veículo
+
+O item "Veículo" é montado dinamicamente e reage a entrar/sair do carro (`lib.onCache('vehicle')`).
+
+| Opção | Comportamento |
+|---|---|
+| Desvirar veículo | Só fora do carro. Barra de progresso de `flipTime` ms com animação de reparo; ao final, coloca o veículo mais próximo de pé |
+| Menu do veículo | Dispara `vehcontrol:openExternal` |
+| Portas | Abre/fecha a porta escolhida. Se o motorista de outro veículo estiver no banco, a ação é sincronizada pelo servidor via `qb-radialmenu:trunk:server:Door` |
+| Janelas | Abre/quebra e restaura a janela escolhida |
+| Extras | Só com `enableExtraMenu`. Liga/desliga o extra do veículo |
+| Pinturas | Só com `enableLiveryMenu`. Aplica a livery; se já estiver aplicada, remove. Exige ser o motorista |
+| Assentos | Só dentro do veículo. Lista gerada pelo número de assentos do modelo. Bloqueia a troca se o assento estiver ocupado, se a velocidade passar de 100 km/h ou se o jogador estiver de cinto de competição (`qbx_seatbelt`) |
+
+---
+
+## Opções por job e gangue
+
+- `jobItems[<job>]` — o grupo "Interações de trabalho" só aparece se o job do jogador tiver itens **e** ele estiver em serviço. Sai do menu ao sair de serviço (`QBCore:Client:SetDuty`) e é recalculado a cada troca de job.
+- `gangItems[<gangue>]` — o grupo "Interações de gangue" aparece para membros da gangue correspondente e é recalculado a cada troca de gangue.
+
+De fábrica, `jobItems` traz `mechanic` (reboque) e `tow` (alternar NPC, reboque); os blocos de polícia, EMS e táxi vêm comentados. `gangItems` vem vazio.
+
+---
+
+## Estado de morte
+
+O recurso escuta a statebag `qbx_medical:deathState` (e o evento `hospital:server:SetDeathStatus`, para compatibilidade com o `qb-ambulancejob`).
+
+- Jogador caído — o radial é limpo. Se ele for polícia em serviço, sobra apenas o botão de emergência; nos demais casos o radial é desabilitado por completo.
+- Jogador recuperado — o menu é reconstruído do zero.
+
+---
+
+## Porta-malas
+
+- `/getintrunk` coloca o jogador dentro do porta-malas do veículo mais próximo, com câmera externa e texto na tela. O veículo precisa ter o porta-malas aberto, estar vazio e ser de uma classe com `allowed = true` em `trunkClasses`.
+- Alguns modelos (superesportivos como `zentorno`, `infernus`, `jester`, entre outros) estão em uma lista fixa de bloqueio dentro de `client/trunk.lua`, mesmo que a classe seja permitida.
+- O offset `x`, `y`, `z` de `trunkClasses` define onde a pessoa é posicionada dentro do porta-malas.
+- O servidor guarda o estado "porta-malas ocupado" por placa e responde pelo callback `qb-trunk:server:getTrunkBusy`, impedindo duas pessoas no mesmo porta-malas.
+
+---
+
+## Integrações
+
+### qbx_seatbelt
+
+`HasHarness()` é consultado antes de trocar de assento. Com cinto de competição, a troca é recusada.
+
+### qbx_medical / qb-ambulancejob
+
+Definem quando o jogador está caído, o que reduz ou desabilita o radial. Ver [Estado de morte](#estado-de-morte).
+
+### Jobs de polícia e EMS
+
+O botão de emergência que aparece para quem está caído dispara `police:client:SendPoliceEmergencyAlert` (job type `leo`) ou `hospital:server:emergencyAlert` (job type `ems`).
+
+### Recursos com menu radial legado (`qb-radialmenu`)
+
+Os exports `AddOption` e `RemoveOption` também são registrados sob o nome `qb-radialmenu`, então recursos escritos para o menu radial antigo continuam funcionando sem alteração:
+
 ```lua
-vehicleDoors = {
-    id = 'vehicleDoors',
-    icon = 'car-side',
-    label = 'Portas do Veículo',
-    items = {
-        { id = 'door0', icon = 'car-side', label = 'Porta do Motorista', event = 'qbx_radialmenu:client:openDoor', args = 0 },
-        { id = 'door1', icon = 'car-side', label = 'Porta do Passageiro', event = 'qbx_radialmenu:client:openDoor', args = 1 },
-        { id = 'door2', icon = 'car-side', label = 'Porta Traseira Esquerda', event = 'qbx_radialmenu:client:openDoor', args = 2 },
-        { id = 'door3', icon = 'car-side', label = 'Porta Traseira Direita', event = 'qbx_radialmenu:client:openDoor', args = 3 },
-        { id = 'hood', icon = 'car', label = 'Capô', event = 'qbx_radialmenu:client:openDoor', args = 4 },
-        { id = 'trunk', icon = 'car-rear', label = 'Porta-Malas', event = 'qbx_radialmenu:client:openDoor', args = 5 },
-    },
-}
+exports['qb-radialmenu']:AddOption(data, id)
+exports['qb-radialmenu']:RemoveOption(id)
 ```
 
-### Acesso ao Porta-Malas
+---
+
+## Entrypoints para outros recursos
+
+### Adicionar e remover opções (cliente)
+
 ```lua
-trunkClasses = {
-    [0] = {allowed = true, x = 0.0, y = -1.5, z = 0.0}, -- Coupés
-    [1] = {allowed = true, x = 0.0, y = -2.0, z = 0.0}, -- Sedans
-    [2] = {allowed = true, x = 0.0, y = -2.5, z = 0.0}, -- SUVs
-    -- ... configure por classe
-}
+-- Retorna o id da opção
+local id = exports.qbx_radialmenu:AddOption({
+    id = 'minhaOpcao',
+    title = 'Minha opção',
+    label = 'Minha opção',
+    icon = 'star',
+    event = 'meu_recurso:client:acao',   -- ou serverEvent / command / action / onSelect
+    args = nil,
+}, 'minhaOpcao')
+
+exports.qbx_radialmenu:RemoveOption('minhaOpcao')
 ```
 
-### Itens de Emprego
+Um item com `items` vira um submenu radial próprio.
+
+### Eventos de cliente
+
 ```lua
-jobItems = {
-    police = {
-        { id = 'emergencyButton', icon = 'bell', label = 'Alerta de Emergência', event = 'police:client:SendPoliceEmergencyAlert' },
-        { id = 'checkLicenses', icon = 'id-card', label = 'Verificar Licenças', event = 'police:client:checkLicenses' },
-    },
-    mechanic = {
-        { id = 'towVehicle', icon = 'truck-pickup', label = 'Guinchar Veículo', event = 'qb-tow:client:TowVehicle' },
-        { id = 'repairVehicle', icon = 'wrench', label = 'Reparar Veículo', event = 'qb-mechanic:client:repairVehicle' },
-    },
-}
+TriggerEvent('qb-radialmenu:client:openDoor', 0)          -- índice da porta
+TriggerEvent('qbx_radialmenu:client:toggleWindows', 0)    -- índice da janela
+TriggerEvent('radialmenu:client:setExtra', 1)
+TriggerEvent('radialmenu:client:setLivery', 1)
+TriggerEvent('radialmenu:client:ChangeSeat', 2, 'Passageiro')
+TriggerEvent('radialmenu:flipVehicle')
+
+-- Roupas
+TriggerEvent('qb-radialmenu:ToggleClothing', { 'Top' })
+TriggerEvent('qb-radialmenu:ToggleProps', { 'Hat' })
+TriggerEvent('qb-radialmenu:ResetClothing')
+
+-- Porta-malas
+TriggerEvent('qb-trunk:client:GetIn')
 ```
 
-### Comandos de Roupas
+### Eventos de servidor
+
 ```lua
-clothingCommands = {
-    top = {
-        Func = function() ToggleClothing({'Top'}) end,
-        Sprite = 'top',
-        Desc = 'Tirar/vestir camisa',
-        Button = 1,
-        Name = 'Torso',
-    },
-    -- ... mais itens
-}
+TriggerClientEvent('radialmenu:client:deadradial', src, isDead)  -- reduz/restaura o radial
+TriggerEvent('qb-trunk:server:setTrunkBusy', plate, true)
+TriggerEvent('qb-radialmenu:trunk:server:Door', open, plate, door)
 ```
 
-## Exports (API)
+### Callback (`lib.callback`)
 
-### Client Exports
-
-| Exportação | Parâmetros | Descrição |
-|--------|-------------|-------------|
-| `ToggleClothing` | `{id: string}` | Alternar roupa liga/desliga |
-| `ToggleProps` | `propName: string` | Alternar acessórios (chapéus, óculos) |
-| `ResetClothing` | `force: boolean` | Resetar todas as alterações |
-
-### Exemplos de Uso
 ```lua
--- Alternar camisa
-exports['qbx_radialmenu']:ToggleClothing({id = 'Shirt'})
-
--- Alternar chapéu
-exports['qbx_radialmenu']:ToggleProps('Hat')
-
--- Resetar todas as alterações
-exports['qbx_radialmenu']:ResetClothing(true)
+local ocupado = lib.callback.await('qb-trunk:server:getTrunkBusy', false, plate)
 ```
 
-## Eventos
+---
 
-### Client Events
+## Localização
 
-| Evento | Parâmetros | Descrição |
-|-------|----------|-------------|
-| `qb-radialmenu:ToggleClothing` | `{id: string}` | Alternar roupa |
-| `qb-radialmenu:ToggleProps` | `propName: string` | Alternar prop |
-| `qbx_radialmenu:client:openDoor` | `doorIndex: number` | Abrir/fechar porta |
-| `qbx_radialmenu:client:toggleWindows` | `windowIndex: number` | Alternar janela |
-| `radialmenu:client:setExtra` | `extraId: number` | Alternar extra |
-| `radialmenu:client:setLivery` | `liveryId: number` | Alterar livery |
+Strings via `ox_lib` locale. Arquivos em `locales/`:
 
-### Server Events
+- `cs.json`, `da.json`, `de.json`, `en.json`, `es.json`, `et.json`, `fr.json`, `it.json`, `nl.json`, `pl.json`, `pt-br.json`, `pt.json`, `sv.json`, `tr.json`
 
-| Evento | Parâmetros | Descrição |
-|-------|----------|-------------|
-| `qbx_radialmenu:server:openDoor` | `doorIndex: number` | Tratamento servidor |
+Idioma ativo pela convar no `server.cfg`:
 
-## Ícones FontAwesome
+```
+setr ox:locale "pt-br"
+```
 
-Obtenha nomes em [FontAwesome 5](https://fontawesome.com/v5.0/icons)
+Os `label` dos itens do `config/client.lua` não passam pelo locale — são texto fixo e devem ser traduzidos direto no config.
 
-**Regras:**
-- Use apenas o nome do ícone (ex: `arrow-right`)
-- NÃO use prefixo `fa-` ou `#`
-- Suporta: brands, light, regular, solid
+---
 
-## Estrutura de Arquivos
+## Estrutura de arquivos
 
 ```
 qbx_radialmenu/
 ├── client/
-│   ├── clothing.lua      # Alternar roupas
-│   ├── main.lua          # Lógica principal do menu
-│   └── trunk.lua         # Interação com porta-malas
+│   ├── main.lua       — montagem do radial, menu do veículo, job/gangue, estado de morte, exports
+│   ├── clothing.lua   — comandos e eventos de roupas e acessórios
+│   └── trunk.lua      — entrar no porta-malas, câmera e sequestro
 ├── server/
-│   ├── main.lua          # Lógica do servidor
-│   └── trunk.lua         # Processamento de porta-malas
+│   ├── main.lua       — statebag de morte e compatibilidade com qb-ambulancejob
+│   └── trunk.lua      — estado do porta-malas por placa, sincronização de portas, comandos
 ├── config/
-│   └── client.lua        # Configuração do menu
-└── locales/               # Traduções
+│   └── client.lua     — itens do radial, veículo, porta-malas e comandos de roupa
+├── locales/           — cs, da, de, en, es, et, fr, it, nl, pl, pt-br, pt, sv, tr
+└── fxmanifest.lua
 ```
-
-## Dependências
-
-| Recurso | Obrigatório | Descrição |
-|----------|-----------|-------------|
-| ox_lib | ✅ | Componentes de UI e localização |
-| qbx_core | ✅ | Framework principal |
-
-## Limitações
-
-- **Extras de veículos**: Limitados a 13 slots (extra 1-13)
-- **Liveries**: Limitadas a 13 slots (livery 1-13)
-- **Roupas/Props**: Suporta 14 tipos diferentes
-
-## Solução de Problemas
-
-### Menu não abre
-- Verifique se a tecla de atalho está configurada
-- Confirme que o recurso está rodando
-- Verifique se há erros no console
-
-### Ícone não aparece
-- Verifique se o nome do ícone está correto
-- Confirme que é um ícone FA5 gratuito
-- NÃO use prefixo `fa-`
-
-### Roupa não alterna
-- Verifique se o ID da roupa está correto
-- Confirme que o componente existe no jogo
-- Verifique se não há conflito com outras rotinas
-
-### Porta do veículo não abre
-- Verifique se o veículo está próximo
-- Confirme que a porta não está danificada
-- Verifique o evento `qbx_radialmenu:client:openDoor`
-
-### Item de emprego não aparece
-- Verifique se o jogador tem o emprego correto
-- Confirme a configuração em `jobItems`
-- Reinicie o recurso após alterações
-
-### Porta-malas não funciona
-- Verifique `trunkClasses` para a classe do veículo
-- Confirme que o veículo permite acesso ao porta-malas
-- Verifique as coordenadas de acesso
