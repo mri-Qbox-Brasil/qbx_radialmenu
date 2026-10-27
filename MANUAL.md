@@ -34,7 +34,7 @@ Menu radial do `ox_lib` com as interações do jogador: portas, janelas, extras,
 | Job de EMS | Não | O botão de emergência dispara `hospital:server:emergencyAlert` |
 | Recurso de controle de veículo | Não | O item "Menu do veículo" dispara `vehcontrol:openExternal` |
 
-Os itens padrão do config também apontam para eventos de terceiros (`qb-drugs:client:cornerselling`, `qb-tow:client:TowVehicle`, `qb-tow:client:ToggleNpc`). Se o recurso correspondente não existir, o item simplesmente não faz nada — remova-o do config.
+Os itens padrão do config também apontam para eventos de terceiros (`qb-tow:client:TowVehicle`, `qb-tow:client:ToggleNpc`). Se o recurso correspondente não existir, o item simplesmente não faz nada — remova-o do config.
 
 ---
 
@@ -74,10 +74,10 @@ Arquivo: `config/client.lua`.
 
 ```lua
 {
-    id = 'cornerselling',              -- id único
-    icon = 'cannabis',                 -- ícone Font Awesome
-    label = 'Venda de Esquina',
-    event = 'qb-drugs:client:cornerselling',  -- ou serverEvent / command / action / onSelect
+    id = 'my_item',                    -- id único
+    icon = 'star',                     -- ícone Font Awesome
+    label = 'Meu item',
+    event = 'my_resource:client:open',  -- ou serverEvent / command / action / onSelect
     args = nil,                        -- argumento passado ao evento/comando
     -- items = { ... }                 -- se presente, o item vira um submenu
 }

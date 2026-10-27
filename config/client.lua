@@ -4,11 +4,11 @@ return {
     flipTime = 15000,
 
     menuItems = {
-        {
-            id = 'citizen',
-            icon = 'user',
-            label = 'Cidadão',
-            items = {
+        -- {
+            -- id = 'citizen',
+            -- icon = 'user',
+            -- label = 'Cidadão',
+            -- items = {
                 -- {
                 --     id = 'givenum',
                 --     icon = 'address-book',
@@ -21,12 +21,6 @@ return {
                 --     label = 'Entrar no Porta-malas',
                 --     event = 'qb-trunk:client:GetIn'
                 -- },
-                {
-                    id = 'cornerselling',
-                    icon = 'cannabis',
-                    label = 'Venda de Esquina',
-                    event = 'qb-drugs:client:cornerselling'
-                },
                 -- {
                 --     id = 'interactions',
                 --     icon = 'exclamation-triangle',
@@ -76,8 +70,8 @@ return {
                 --         },
                 --     },
                 -- },
-            },
-        },
+            -- },
+        -- },
         {
             id = 'general',
             icon = 'rectangle-list',
