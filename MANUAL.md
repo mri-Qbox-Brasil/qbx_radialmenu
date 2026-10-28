@@ -28,6 +28,7 @@ Menu radial do `ox_lib` com as interações do jogador: portas, janelas, extras,
 | `qbx_core` | Sim | Framework base, notificações e os módulos `lib.lua` e `playerdata.lua` |
 | `ox_lib` | Sim | O menu radial em si (`lib.registerRadial`, `lib.addRadialItem`), progress bar, locale. O menu é aberto pela tecla do próprio `ox_lib` |
 | `qbx_seatbelt` | Sim | `HasHarness()` — bloqueia a troca de assento com cinto de competição |
+| `qbx_smallresources` | Não | Export `FlipVehicle` do item Desvirar veículo (na base MRI, o `mri_Qbox` responde por ele) |
 | `qbx_medical` | Não | Statebag `qbx_medical:deathState` reduz o menu quando o jogador cai |
 | `qb-ambulancejob` | Não | Alternativa ao anterior via evento `hospital:server:SetDeathStatus` |
 | Job de polícia | Não | O botão de emergência dispara `police:client:SendPoliceEmergencyAlert` |
@@ -58,7 +59,6 @@ Arquivo: `config/client.lua`.
 |---|---|---|---|
 | `enableExtraMenu` | bool | Sim | Mostra o submenu de extras do veículo |
 | `enableLiveryMenu` | bool | Sim | Mostra o submenu de pinturas (liveries) do veículo |
-| `flipTime` | ms | Sim | Duração da barra de progresso para desvirar um veículo |
 | `menuItems` | array | Sim | Itens sempre presentes no radial. Cada um: `id`, `icon`, `label` e um `event`, `serverEvent`, `command`, `action`, `onSelect` ou uma sublista `items` |
 | `jobItems` | tabela por job | Sim | Itens que aparecem só para o job, e só em serviço. Indexado pelo nome do job |
 | `gangItems` | tabela por gangue | Sim | Itens que aparecem só para membros da gangue. Indexado pelo nome da gangue |
@@ -129,7 +129,7 @@ O item "Veículo" é montado dinamicamente e reage a entrar/sair do carro (`lib.
 
 | Opção | Comportamento |
 |---|---|
-| Desvirar veículo | Só fora do carro. Barra de progresso de `flipTime` ms com animação de reparo; ao final, coloca o veículo mais próximo de pé |
+| Desvirar veículo | Só fora do carro. Chama o export `FlipVehicle` do `qbx_smallresources` (na base MRI, o módulo Desvirar veículo do `mri_Qbox`), que define o tempo e a distância; sem ele ligado, não faz nada |
 | Menu do veículo | Dispara `vehcontrol:openExternal` |
 | Portas | Abre/fecha a porta escolhida. Se o motorista de outro veículo estiver no banco, a ação é sincronizada pelo servidor via `qb-radialmenu:trunk:server:Door` |
 | Janelas | Abre/quebra e restaura a janela escolhida |

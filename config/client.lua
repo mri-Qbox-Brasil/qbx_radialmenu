@@ -1,8 +1,6 @@
 local bags = {[40] = true, [41] = true, [44] = true, [45] = true}
 
 return {
-    flipTime = 15000,
-
     menuItems = {
         -- {
             -- id = 'citizen',
