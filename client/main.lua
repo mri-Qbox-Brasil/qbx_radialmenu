@@ -46,7 +46,7 @@ local function convert(tbl)
         action = tbl.action(tbl.arg)
     elseif tbl.command then
         action = function()
-            ExecuteCommand(tbl.command .. ' ' .. tbl.args)
+            ExecuteCommand(tbl.args and ('%s %s'):format(tbl.command, tbl.args) or tbl.command)
         end
     end
 

@@ -2,23 +2,36 @@ local bags = {[40] = true, [41] = true, [44] = true, [45] = true}
 
 return {
     menuItems = {
-        -- {
-            -- id = 'citizen',
-            -- icon = 'user',
-            -- label = 'Cidadão',
-            -- items = {
+        {
+            id = 'citizen',
+            icon = 'user',
+            label = 'Cidadão',
+            items = {
                 -- {
                 --     id = 'givenum',
                 --     icon = 'address-book',
                 --     label = 'Dar Contato',
                 --     event = 'qb-phone:client:GiveContactDetails'
                 -- },
-                -- {
-                --     id = 'getintrunk',
-                --     icon = 'car',
-                --     label = 'Entrar no Porta-malas',
-                --     event = 'qb-trunk:client:GetIn'
-                -- },
+                {
+                    id = 'emotes',
+                    icon = 'person-walking',
+                    label = 'Animações',
+                    command = 'mri_emotes',
+                },
+                {
+                    id = 'emotescancel',
+                    icon = 'ban',
+                    label = 'Cancelar Animação',
+                    command = 'mri_emotescancel',
+                },
+                {
+                    id = 'handsup',
+                    icon = 'hand',
+                    label = 'Mãos ao Alto',
+                    event = 'scully_emotemenu:playByCommand',
+                    args = 'handsup',
+                },
                 -- {
                 --     id = 'interactions',
                 --     icon = 'exclamation-triangle',
@@ -68,8 +81,8 @@ return {
                 --         },
                 --     },
                 -- },
-            -- },
-        -- },
+            },
+        },
         {
             id = 'general',
             icon = 'rectangle-list',
@@ -137,6 +150,12 @@ return {
                     icon = 'shirt',
                     label = 'Roupas',
                     items = {
+                        {
+                            id = 'resetClothing',
+                            icon = 'rotate-left',
+                            label = 'Vestir Tudo de Volta',
+                            event = 'qb-radialmenu:ResetClothing',
+                        },
                         {
                             id = 'hair',
                             icon = 'user',

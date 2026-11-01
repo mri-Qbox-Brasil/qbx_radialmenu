@@ -29,6 +29,7 @@ Menu radial do `ox_lib` com as interações do jogador: portas, janelas, extras,
 | `ox_lib` | Sim | O menu radial em si (`lib.registerRadial`, `lib.addRadialItem`), progress bar, locale. O menu é aberto pela tecla do próprio `ox_lib` |
 | `qbx_seatbelt` | Sim | `HasHarness()` — bloqueia a troca de assento com cinto de competição |
 | `qbx_smallresources` | Não | Export `FlipVehicle` do item Desvirar veículo (na base MRI, o `mri_Qbox` responde por ele) |
+| `mri_Qemotes` | Não | Itens Animações, Cancelar Animação e Mãos ao Alto, em Cidadão (comandos `mri_emotes` e `mri_emotescancel` e o evento `scully_emotemenu:playByCommand`) |
 | `qbx_medical` | Não | Statebag `qbx_medical:deathState` reduz o menu quando o jogador cai |
 | `qb-ambulancejob` | Não | Alternativa ao anterior via evento `hospital:server:SetDeathStatus` |
 | Job de polícia | Não | O botão de emergência dispara `police:client:SendPoliceEmergencyAlert` |
