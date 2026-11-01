@@ -433,7 +433,7 @@ return {
                 id = 'togglenpc',
                 icon = 'toggle-on',
                 label = 'Alternar NPC',
-                event = 'qb-tow:client:ToggleNpc',
+                event = 'jobs:client:ToggleNpc',
             },
             {
                 id = 'towVehicle',

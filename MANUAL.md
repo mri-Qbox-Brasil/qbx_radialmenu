@@ -35,7 +35,7 @@ Menu radial do `ox_lib` com as interações do jogador: portas, janelas, extras,
 | Job de EMS | Não | O botão de emergência dispara `hospital:server:emergencyAlert` |
 | Recurso de controle de veículo | Não | O item "Menu do veículo" dispara `vehcontrol:openExternal` |
 
-Os itens padrão do config também apontam para eventos de terceiros (`qb-tow:client:TowVehicle`, `qb-tow:client:ToggleNpc`). Se o recurso correspondente não existir, o item simplesmente não faz nada — remova-o do config.
+Os itens padrão do config também apontam para eventos de terceiros (`qb-tow:client:TowVehicle`, `jobs:client:ToggleNpc`). Se o recurso correspondente não existir, o item simplesmente não faz nada — remova-o do config.
 
 ---
 
